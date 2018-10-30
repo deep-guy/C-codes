@@ -62,13 +62,12 @@ gridcell** generate_initial_state(int X, int Y, int L, gridcell** grid)
             {
                 unsigned char st;
                 int rdm = rand();
-
                 // finding the value of the cell randomly
                 if (L == 0)
                 {
                     st = '0';
                 }
-                else if(rdm%16 == 0)
+                else if(rdm%13 == 0)
                 {
                     if(grid[i][j].state != '1')
                     {
@@ -85,29 +84,6 @@ gridcell** generate_initial_state(int X, int Y, int L, gridcell** grid)
 
 
 void update_neighborhood(gridcell** grid, int X, int Y)
-// {
-//     unsigned char i0, i1, i2, i3, i4, i5, i6, i7;
-//     int i, j, k;
-// //     for(i = 0; i < X; i++)
-// //     {
-// //         for(j = 0; j < Y; j++)
-// //         {
-// //             grid[i][j].neighborhood = (unsigned char*)malloc(8*sizeof(unsigned char));
-// //             for (k = 0; k < 8; k++)
-// //             {
-// //                 grid[i][j].neighborhood[k] = 'X';
-// //             }        
-// //         }
-// //     }
-// //     for (i = 1; i < X-1; i++)
-// //     {
-// //         for(j = 1; j < Y-1; j++)
-// //         {
-// //             printf("%c ", grid[i][j].state);
-// //         }
-// //         printf("\n");
-// //     }
-// // }
 {
     unsigned char i0, i1, i2, i3, i4, i5, i6, i7;
     // There will be 8 seperate cases in this, maybe more
@@ -280,10 +256,6 @@ int count_live_neighbors(gridcell gcell)
     {
         if(gcell.neighborhood[i] == '1')
             count++;
-            // int loop = 0;
-            // for(loop = 0; loop < 8; loop++)
-            //     printf("%c ", gcell.neighborhood[loop]);
-            // printf("\n");
     }
 
     return count;
@@ -292,27 +264,11 @@ int count_live_neighbors(gridcell gcell)
 
 void print_grid(gridcell** grid, int X, int Y)
 {
-    // printf("%c\n", grid[9][9].state);
     int i, j;
-    // for(i = 0; i < X; i++)
-    // {
-    //     for(j = 0; j < Y; j++)
-    //     {
-    //         int k = 0;
-    //         for(k = 0; k < 8; k++)
-    //         {
-    //             printf("%c ", grid[i][j].neighborhood[k]);
-    //         }
-    //         printf("\n");
-    //     }
-    // }
     for(i = 0; i < X; i++)
     {
         for(j = 0; j < Y; j++)
         {
-            // printf("i = %d\n", i);
-            // printf("j = %d\n", j);
-            // printf("%c ", grid[i][j].state);
             if(grid[i][j].state == '0')
             {
                 printf("0 ");
@@ -361,7 +317,7 @@ int main()
             update_neighborhood(grid, row_count, col_count);
             int output = calculate_output(grid, row_count, col_count);
             printf("%d\n", output);
-            print_grid(grid, row_count, col_count);
+            // print_grid(grid, row_count, col_count);
         }
         else
             printf("0\n");
