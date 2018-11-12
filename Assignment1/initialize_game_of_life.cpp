@@ -334,7 +334,7 @@ void grid::print_grid()
         {
             if(gridcells[i][j].get_state() == '0')
             {
-                cout << "0 ";
+                cout << "o ";
             }
             else if(gridcells[i][j].get_state() == '1')
             {
@@ -401,7 +401,7 @@ int main()
             myGrid.update_neighborhood();
             int output = myGrid.calculate_output();
             cout << output << endl;
-           // myGrid.print_grid();
+            myGrid.print_grid();
             // cout << myGrid;
         }
         else

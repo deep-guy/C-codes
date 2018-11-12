@@ -1,5 +1,5 @@
 #include "Gridcell.h"
-#include <iostream>
+
 
 #ifndef GRID_H_
 #define GRID_H_

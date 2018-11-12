@@ -11,9 +11,12 @@ class gridcell {
             unsigned char state;
             unsigned char* neighborhood;
     public: gridcell(void); 
-            ~gridcell();
+            // ~gridcell();
+            gridcell(const gridcell& obj);
             void set_state(unsigned char ch);
             unsigned char get_state(); 
+            int get_x();
+            int get_y();
             unsigned char* get_neighborhood();
             void set_x(int X);
             void set_y(int Y);
