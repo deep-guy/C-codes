@@ -1,8 +1,9 @@
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <stdlib.h>
 #include <time.h>
+#include <cmath>
+#include <sstream>
+#include <fstream>
 #ifndef GRIDCELL_H_
 #define GRIDCELL_H_
 class gridcell {
