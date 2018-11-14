@@ -19,7 +19,7 @@ IntArray :: IntArray(IntArray const &other):_size(other._size) {
 }
 
 IntArray :: ~IntArray() {
-  // Note: non-empty destructor -- "new" has to be "delete"d here.
+  // Note: non-empty destructor -- "new" was to be "delete"d here.
   delete [] _data ;
 }
 
@@ -55,6 +55,8 @@ int &IntArray::operator[](size_t index) {
   //std :: cout << "calling non-const index op" << std :: endl ;
   return operatorIndex(index);
 }
+
+// Why is she using an ampersand before IntArray here?
 
 int const &IntArray::operator[](size_t index) const {
   //std :: cout << "calling const index op" << std :: endl ;

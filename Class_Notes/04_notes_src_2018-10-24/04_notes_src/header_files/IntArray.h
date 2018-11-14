@@ -13,28 +13,28 @@
 
 class IntArray {
 public:
-  IntArray(size_t size = 1) ;
-  IntArray(IntArray const &other) ;
-  ~IntArray() ;
-  
-  // operator overloading //
-  IntArray const &operator=(IntArray const &other) ;
-  int &operator[] (size_t index) ; // for non-const objects
-  int const &operator[](size_t index) const ; // for const objects
-  IntArray &operator+=(IntArray const &rhs) ;
+    IntArray(size_t size = 1) ;
+    IntArray(IntArray const &other) ;
+    ~IntArray() ;
+    
+    // operator overloading //
+    IntArray const &operator=(IntArray const &other) ;
+    int &operator[] (size_t index) ; // for non-const objects
+    int const &operator[](size_t index) const ; // for const objects
+    IntArray &operator+=(IntArray const &rhs) ;
 
-  // IO operator overloading //
-  friend std :: ostream& operator<<
-    (std :: ostream &os, IntArray const &current) ;
-  friend std :: istream& operator>>
-    (std :: istream &is, IntArray  &current) ;
-  
-private:
-  int *_data ;
-  size_t _size ;
+    // IO operator overloading //
+    friend std :: ostream& operator<<
+        (std :: ostream &os, IntArray const &current) ;
+    friend std :: istream& operator>>
+        (std :: istream &is, IntArray  &current) ;
+    
+    private:
+    int *_data ;
+    size_t _size ;
 
-  void boundary(size_t index) const ;
-  int &operatorIndex(size_t index) const;
+    void boundary(size_t index) const ;
+    int &operatorIndex(size_t index) const;
 } ;
 
 #endif

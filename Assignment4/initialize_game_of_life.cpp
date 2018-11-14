@@ -3,20 +3,6 @@
 #include "Multiverse.h"
 using namespace std;
 
-// use 'X' to denote the neighborhood state of the cells that do not exist
-
-
-// Function definitions of all methods of gridcell class
-
-
-
-// Function definitions of all methods of grid class
-
-
-// Multiverse methods 
-
-
-
 int main(int argc, char** argv)
 {
     // int row_count, col_count, live_cell_count;
