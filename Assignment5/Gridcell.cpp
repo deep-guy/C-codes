@@ -33,6 +33,12 @@ Gridcell Gridcell::operator = (const Gridcell& obj)
     return *this;
 }
 
+void Gridcell::operator()(int x, int y)
+{
+    _x = x;
+    _y = y;
+}
+
 
 int Gridcell::count_live_neighbors() 
 {

@@ -1,7 +1,7 @@
 #include "Grid.h"
 using namespace std;
 
-Grid::Grid(int x, int y)
+Grid::Grid(int x, int y, char* in_file_name)
 {
     _X = x;
     _Y = y;
@@ -11,6 +11,43 @@ Grid::Grid(int x, int y)
         _gridcells[i] = new Gridcell[_Y+1];
     }
 
+    for (int i = 0; i < _X; i++)
+    {
+        for (int j = 0; j < _Y; j++)
+        {
+            _gridcells[i][j](i, j);
+            _gridcells[i][j].set_state('0');
+            unsigned char nhood[8] = {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'};
+            _gridcells[i][j].set_neighborhood(nhood);
+        }
+    }
+
+    ifstream in_file;
+    in_file.open(in_file_name);
+    string line;
+    getline (in_file, line);
+    getline (in_file, line);
+    int counter = 0;
+    while (line != "eof")
+    {
+        for(int i = 0; i < line.size(); i++)
+        {
+            if(line[i] != ' ')
+            {
+                
+                if (line[i] == 'o')
+                {
+                    _gridcells[counter][i/2].set_state('0');
+                }
+                else if (line[i] == '+')
+                {
+                    _gridcells[counter][i/2].set_state('1');                    
+                }
+            }
+        }
+        counter ++;
+        getline (in_file, line);
+    }
 }
 
 Grid::~Grid()
@@ -18,6 +55,7 @@ Grid::~Grid()
     int i = 0;
     for (i = 0; i < _X; i++)
     {
+        cout << _gridcells[i];
         delete[] _gridcells[i];
     }
     delete[] _gridcells;
@@ -27,10 +65,10 @@ Grid::Grid(const Grid& obj)
 {
     _X = obj._X;
     _Y = obj._Y;
-    _gridcells = new Gridcell*[_X];
+    _gridcells = new Gridcell*[obj._X];
     for (int i = 0; i < _X; i++)
     {
-        _gridcells[i] = new Gridcell[_Y];
+        _gridcells[i] = new Gridcell[obj._Y];
     }
 
     for (int i = 0; i < _X; i++)
@@ -40,6 +78,7 @@ Grid::Grid(const Grid& obj)
             _gridcells[i][j] = obj._gridcells[i][j];
         }
     }
+    update_neighborhood();
 }
 
 
@@ -59,7 +98,16 @@ void Grid::set_gridcells(Gridcell** gcells)
 
 Grid Grid::operator = (const Grid& obj)
 {
-    
+    _X = obj._X;
+    _Y = obj._Y;
+    for (int i = 0; i < _X; i++)
+    {
+        for (int j = 0; j < _Y; j++)
+        {
+            _gridcells[i][j] = obj._gridcells[i][j];
+        }
+    }
+    return *this;
 }
 
 
@@ -79,7 +127,7 @@ void Grid::update_neighborhood()
     int i, j, k;
     for (i = 0; i < 8; i++)
     {
-        stateList[i] = '_X';
+        stateList[i] = 'X';
     }
     stateList[0] = i0;
     stateList[7] = i7;
@@ -93,7 +141,7 @@ void Grid::update_neighborhood()
     i5 = _gridcells[_X-2][1].get_state();
     for (i = 0; i < 8; i++)
     {
-        stateList[i] = '_X';
+        stateList[i] = 'X';
     }
     stateList[4] = i4;
     stateList[5] = i5;
@@ -106,7 +154,7 @@ void Grid::update_neighborhood()
     i2 = _gridcells[0][_Y-2].get_state();
     for (i = 0; i < 8; i++)
     {
-        stateList[i] = '_X';
+        stateList[i] = 'X';
     }
     stateList[0] = i0;
     stateList[1] = i1;
@@ -120,7 +168,7 @@ void Grid::update_neighborhood()
     i4 = _gridcells[_X-2][_Y-1].get_state();
     for (i = 0; i < 8; i++)
     {
-        stateList[i] = '_X';
+        stateList[i] = 'X';
     }
     stateList[2] = i2;
     stateList[3] = i3;
@@ -137,7 +185,7 @@ void Grid::update_neighborhood()
         i7 = _gridcells[i+1][1].get_state();
         for (j = 0; j < 8; j++)
         {
-            stateList[j] = '_X';
+            stateList[j] = 'X';
         }
         stateList[0] = i0;
         stateList[4] = i4;
@@ -159,7 +207,7 @@ void Grid::update_neighborhood()
         i4 = _gridcells[i-1][_Y-1].get_state();
         for (j = 0; j < 8; j++)
         {
-            stateList[j] = '_X';
+            stateList[j] = 'X';
         }
         stateList[0] = i0;
         stateList[1] = i1;
@@ -180,7 +228,7 @@ void Grid::update_neighborhood()
         i7 = _gridcells[1][i+1].get_state();
         for (j = 0; j < 8; j++)
         {
-            stateList[j] = '_X';
+            stateList[j] = 'X';
         }
         stateList[0] = i0;
         stateList[1] = i1;
@@ -202,7 +250,7 @@ void Grid::update_neighborhood()
         i6 = _gridcells[_X-1][i+1].get_state();
         for (j = 0; j < 8; j++)
         {
-            stateList[j] = '_X';
+            stateList[j] = 'X';
         }
         stateList[2] = i2;
         stateList[3] = i3;
@@ -233,7 +281,6 @@ void Grid::update_neighborhood()
 }
 
 
-
 void Grid::print_grid()
 {
     int i, j;
@@ -244,18 +291,64 @@ void Grid::print_grid()
         {
             if(_gridcells[i][j].get_state() == '0')
             {
-                // cout << "o ";
+                cout << "o ";
             }
             else if(_gridcells[i][j].get_state() == '1')
             {
-                // cout << "+ ";
+                cout << "+ ";
                 counter++;
             }
         }
+        cout << endl;
     }
-    cout << counter << " : Cell count pf Grid" << endl;
+    // cout << counter << " : Cell count pf Grid" << endl;
 }
 
+
+bool Grid::is_valid()
+{
+    int i = 0;
+    for (i = 0; i < _Y; i++)
+    {
+        if(_gridcells[0][i].get_state() != '0')
+            return false;
+        if(_gridcells[_X-1][i].get_state() != '0')
+            return false;
+    }
+
+    for (i = 0; i < _X; i++)
+    {
+        if(_gridcells[i][0].get_state() != '0')
+            return false;
+        if(_gridcells[i][_Y-1].get_state() != '0')
+            return false;
+    }
+
+    return true;
+}
+
+
+void Grid::output_to_file(int z)
+{
+    int i, j;
+    ofstream outfile("output.txt");
+    // cout << "hello20" << endl;
+    // outfile.open("output.txt");
+    // outfile.open("output.txt",ios::out);
+    outfile<<_X<<" "<<_Y<<" "<<z<<endl;
+        for(i=0; i < _X; i++)
+        {
+            int j;
+            for(j = 0; j < _Y; j++)
+            {
+                outfile << _gridcells[i][j].get_state() << " ";
+            }
+            //printf("\n");
+            outfile<<endl;
+        }
+        outfile<<"eof";
+    outfile.close();
+}
 
 
 int Grid::calculate_output()
@@ -270,4 +363,18 @@ int Grid::calculate_output()
         }
     }
     return output;
+}
+
+
+std::ostream& operator << (std::ostream& os, Grid& myGrid) {
+    int rows = myGrid._X, cols = myGrid._Y;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++) 
+        {
+            os << myGrid._gridcells[i][j] << " ";
+        }
+        os << std::endl;
+    }
+    return os;
 }

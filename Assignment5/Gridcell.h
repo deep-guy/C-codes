@@ -4,6 +4,7 @@
 #include <cmath>
 #include <sstream>
 #include <fstream>
+#include <string>
 #ifndef GRIDCELL_H_
 #define GRIDCELL_H_
 class Gridcell {
@@ -29,6 +30,7 @@ class Gridcell {
         void set_x(int X) {_x = X;}
         void set_y(int Y) {_y = Y;}
         void set_neighborhood(unsigned char*);
+        void operator() (int x, int y);
 
         //Overloaded assignment
         Gridcell operator = (const Gridcell&);

@@ -1,18 +1,17 @@
 #include "Gridcell.h"
 
-
 #ifndef GRID_H_
 #define GRID_H_
 class Grid 
 {
-    private:
+    protected:
         Gridcell **_gridcells;
         int _X;
         int _Y;
 
     public: 
         //Constructors
-        Grid(int, int);
+        Grid(int, int, char*);
         Grid(){}
         ~Grid();
         Grid(const Grid&);
@@ -24,6 +23,8 @@ class Grid
 
         //Getters
         Gridcell** get_grid() {return _gridcells;}
+        int get_x() {return _X;}
+        int get_y() {return _Y;}
         Gridcell get_cell(int i, int j) {return _gridcells[i][j];}
 
         //Overloaded operators
@@ -31,10 +32,10 @@ class Grid
         Grid operator=(const Grid&);
 
         //Other functions
-        void initialize_gridcells();
-        void update_neighborhood();
-        void generate_next_gen();        
+        void update_neighborhood();        
         void print_grid();
+        bool is_valid();
+        void output_to_file(int gen_count);
         int calculate_output();
         friend std::ostream& operator << (std::ostream& os, Grid& myGrid);
 };
