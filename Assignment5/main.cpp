@@ -120,7 +120,20 @@ int main(int argc, char** argv)
     
     else if (type == 2)
     {
-        
+        Mazectric myGrid(row_count, col_count, in_file_name);
+        myGrid.generate_k_gens(generation_count);
+        myGrid.output_to_file(generation_count);
+    }
+
+    else if (type == 1)
+    {
+        HighLife myGrid(row_count, col_count, in_file_name);
+        myGrid.generate_k_gens(generation_count);
+        myGrid.output_to_file(generation_count);
+    }
+    else
+    {
+        output_invalid_file();
     }
     return 0;
 }

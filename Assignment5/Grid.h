@@ -13,7 +13,6 @@ class Grid
         //Constructors
         Grid(int, int, char*);
         Grid(){}
-        ~Grid();
         Grid(const Grid&);
 
         //Setters

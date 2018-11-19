@@ -7,6 +7,7 @@ class Maze : public Grid
 {
     public: 
         Maze(int x, int y, char* inp) : Grid(x, y, inp) {}
+        ~Maze();
         void generate_next_gen();
         void generate_k_gens(int);
 };

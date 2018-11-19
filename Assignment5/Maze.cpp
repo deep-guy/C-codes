@@ -27,6 +27,16 @@ void Maze::generate_next_gen()
     update_neighborhood();
 }
 
+Maze::~Maze()
+{
+    int i = 0;
+    for (i = 0; i < _X; i++)
+    {
+        delete[] _gridcells[i];
+    }
+    delete[] _gridcells;
+}
+
 void Maze::generate_k_gens(int k)
 {
     for (int i = 0; i < k; i++)

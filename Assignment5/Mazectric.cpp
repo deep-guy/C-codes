@@ -3,28 +3,49 @@
 void Mazectric::generate_next_gen()
 {
     update_neighborhood();
-    Gridcell** gridcells = get_grid();
-    int X = get_x();
-    int Y = get_y();
 
-    for (int i = 0; i < X; i++)
+    for (int i = 0; i < _X; i++)
     {
-        for (int j = 0; j < Y; j++)
+        for (int j = 0; j < _Y; j++)
         {
-            int ln = gridcells[i][j].count_live_neighbors();
+            int ln = _gridcells[i][j].count_live_neighbors();
             if (ln == 1 || ln == 2 || ln == 3 || ln == 4)
             {
-                gridcells[i][j].set_state(gridcells[i][j].get_state());
+                _gridcells[i][j].set_state(_gridcells[i][j].get_state());
             }
-            else if (gridcells[i][j].get_state() == '0' && ln == 3)
+            else if (_gridcells[i][j].get_state() == '0' && ln == 3)
             {
-                gridcells[i][j].set_state('1');
+                _gridcells[i][j].set_state('1');
             }
             else
             {
-                gridcells[i][j].set_state('0');
+                _gridcells[i][j].set_state('0');
             }
         }
     }
-    set_gridcells(gridcells);
+    update_neighborhood();
+}
+
+Mazectric::~Mazectric()
+{
+    int i = 0;
+    for (i = 0; i < _X; i++)
+    {
+        delete[] _gridcells[i];
+    }
+    delete[] _gridcells;
+}
+
+void Mazectric::generate_k_gens(int k)
+{
+    for (int i = 0; i < k; i++)
+    {
+        Mazectric temp = *this;
+        temp.generate_next_gen();
+        if (temp.is_valid())
+        {
+            *this = temp;
+            // std::cout << "I made it!!" << std::endl;
+        }
+    }
 }

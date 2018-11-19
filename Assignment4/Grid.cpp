@@ -18,15 +18,15 @@ grid::grid(int x, int y)
     }
 }
 
-// grid::~grid()
-// {
-//     int i = 0;
-//     for (i = 0; i < X; i++)
-//     {
-//         delete[] gridcells[i];
-//     }
-//     delete[] gridcells;
-// }
+grid::~grid()
+{
+    int i = 0;
+    for (i = 0; i < X; i++)
+    {
+        delete[] gridcells[i];
+    }
+    delete[] gridcells;
+}
 
 grid::grid(const grid& obj)
 {

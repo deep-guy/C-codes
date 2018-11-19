@@ -3,27 +3,49 @@
 void HighLife::generate_next_gen()
 {
     update_neighborhood();
-    Gridcell** gridcells = get_grid();
-    int X = get_x();
-    int Y = get_y();
 
-    for (int i = 0; i < X; i++)
+    for (int i = 0; i < _X; i++)
     {
-        for (int j = 0; j < Y; j++)
+        for (int j = 0; j < _Y; j++)
         {
-            if (gridcells[i][j].count_live_neighbors() == 2)
+            int ln = _gridcells[i][j].count_live_neighbors();
+            if (ln == 2 || ln == 3)
             {
-                gridcells[i][j].set_state(gridcells[i][j].get_state());
+                _gridcells[i][j].set_state(_gridcells[i][j].get_state());
             }
-            else if (gridcells[i][j].get_state() == '0' && (gridcells[i][j].count_live_neighbors() == 3 || gridcells[i][j].count_live_neighbors() == 6))
+            else if (_gridcells[i][j].get_state() == '0' && (ln == 3 || ln == 6))
             {
-                gridcells[i][j].set_state('1');
+                _gridcells[i][j].set_state('1');
             }
             else
             {
-                gridcells[i][j].set_state('0');
+                _gridcells[i][j].set_state('0');
             }
         }
     }
-    set_gridcells(gridcells);
+    update_neighborhood();
+}
+
+HighLife::~HighLife()
+{
+    int i = 0;
+    for (i = 0; i < _X; i++)
+    {
+        delete[] _gridcells[i];
+    }
+    delete[] _gridcells;
+}
+
+void HighLife::generate_k_gens(int k)
+{
+    for (int i = 0; i < k; i++)
+    {
+        HighLife temp = *this;
+        temp.generate_next_gen();
+        if (temp.is_valid())
+        {
+            *this = temp;
+            // std::cout << "I made it!!" << std::endl;
+        }
+    }
 }

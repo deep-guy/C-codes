@@ -50,17 +50,6 @@ Grid::Grid(int x, int y, char* in_file_name)
     }
 }
 
-Grid::~Grid()
-{
-    int i = 0;
-    for (i = 0; i < _X; i++)
-    {
-        cout << _gridcells[i];
-        delete[] _gridcells[i];
-    }
-    delete[] _gridcells;
-}
-
 Grid::Grid(const Grid& obj)
 {
     _X = obj._X;
@@ -341,7 +330,10 @@ void Grid::output_to_file(int z)
             int j;
             for(j = 0; j < _Y; j++)
             {
-                outfile << _gridcells[i][j].get_state() << " ";
+                if (_gridcells[i][j].get_state() == '0')
+                    outfile << 'o' << " ";
+                else if (_gridcells[i][j].get_state() == '1')
+                    outfile << "+ ";
             }
             //printf("\n");
             outfile<<endl;

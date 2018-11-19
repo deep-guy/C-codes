@@ -13,7 +13,7 @@ class grid
             unsigned char* neighborhood;
     public: grid(int x, int y);
             grid();
-            // ~grid();
+            ~grid();
             grid(const grid& obj);
             void set_x(int x);
             void set_y(int x);
